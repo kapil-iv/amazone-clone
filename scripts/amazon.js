@@ -70,7 +70,7 @@ function updateCartQuantityUI() {
   document.querySelector(".amazon-header-right-section").innerHTML = cartHtml;
 }
 
-function handleAddToCart(productId, quantity) {
+function AddToCart(productId, quantity) {
   let matchingItem = cart.find((item) => item.productId === productId);
 
   if (matchingItem) {
@@ -115,7 +115,7 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
     );
     const quantity = parseInt(quantitySelector?.value || 1);
 
-    handleAddToCart(productId, quantity);
+    AddToCart(productId, quantity);
     showAddedMessage(button, productId);
   });
 });
