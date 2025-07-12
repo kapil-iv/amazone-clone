@@ -46,6 +46,8 @@
 //     keywords: ["toaster", "kitchen", "appliances"],
 //   },
 // ];
+import {cart} from '../data/cart.js';
+const addedTimeouts = {};
 
 let productHTML = "";
 
@@ -73,8 +75,8 @@ products.forEach((product) => {
             $${(product.priceCents / 100).toFixed(2)}
           </div>
 
-          <div class="product-quantity-container">
-            <select>
+          <div class="product-quantity-container ">
+            <select class="js-product-quantity-selector-${product.id}">
               <option selected value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -108,6 +110,11 @@ document.querySelector(".js-products-grid").innerHTML = productHTML;
 document.querySelectorAll(".js-add-to-cart").forEach((button) => {
   button.addEventListener("click", () => {
     const productId = button.dataset.productId;
+    const quantitySelector = document.querySelector(
+      `.js-product-quantity-selector-${productId}`
+    );
+    const quantity = parseInt(quantitySelector?.value || 1);
+    console.log(quantity);
     let matchingItem;
 
     cart.forEach((item) => {
@@ -117,11 +124,11 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
     });
 
     if (matchingItem) {
-      matchingItem.quantity += 1;
+      matchingItem.quantity += quantity || 1;
     } else {
       cart.push({
         productId: productId,
-        quantity: 1,
+        quantity: quantity || 1,
       });
     }
 
@@ -141,5 +148,25 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
   <div class="cart-text">Cart</div>
   </a> `;
     document.querySelector(".amazon-header-right-section").innerHTML = cartHtml;
+
+    // Get the product ID and corresponding "Added" message element
+
+    const addedMessage = button
+      .closest(".product-container")
+      .querySelector(".added-to-cart");
+
+    // 👇 Clear existing timeout if it exists
+    if (addedTimeouts[productId]) {
+      clearTimeout(addedTimeouts[productId]);
+    }
+
+    // 👇 Show the message
+    addedMessage.classList.add("visible");
+
+    // 👇 Set a fresh 2-second timeout
+    addedTimeouts[productId] = setTimeout(() => {
+      addedMessage.classList.remove("visible");
+      delete addedTimeouts[productId]; // optional cleanup
+    }, 2000);
   });
 });
