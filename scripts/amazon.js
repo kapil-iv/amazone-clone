@@ -1,5 +1,5 @@
-import { cart } from '../data/cart.js';
-import { products } from '../data/products.js';
+import { cart } from "../data/cart.js";
+import { products } from "../data/products.js";
 
 const addedTimeouts = {};
 
@@ -26,7 +26,14 @@ function generateProductHTML(product) {
 
       <div class="product-quantity-container">
         <select class="js-product-quantity-selector-${product.id}">
-          ${[...Array(10)].map((_, i) => `<option value="${i + 1}" ${i === 0 ? 'selected' : ''}>${i + 1}</option>`).join('')}
+          ${[...Array(10)]
+            .map(
+              (_, i) =>
+                `<option value="${i + 1}" ${i === 0 ? "selected" : ""}>${
+                  i + 1
+                }</option>`
+            )
+            .join("")}
         </select>
       </div>
 
@@ -46,7 +53,7 @@ function generateProductHTML(product) {
 
 function updateCartQuantityUI() {
   let cartQuantity = 0;
-  cart.forEach(item => cartQuantity += item.quantity);
+  cart.forEach((item) => (cartQuantity += item.quantity));
 
   const cartHtml = `
     <a class="orders-link header-link" href="orders.html">
@@ -59,13 +66,13 @@ function updateCartQuantityUI() {
       <div class="cart-quantity js-cart-quantity">${cartQuantity}</div>
       <div class="cart-text">Cart</div>
     </a>`;
-  
+
   document.querySelector(".amazon-header-right-section").innerHTML = cartHtml;
 }
 
 function handleAddToCart(productId, quantity) {
-  let matchingItem = cart.find(item => item.productId === productId);
-  
+  let matchingItem = cart.find((item) => item.productId === productId);
+
   if (matchingItem) {
     matchingItem.quantity += quantity;
   } else {
@@ -76,7 +83,9 @@ function handleAddToCart(productId, quantity) {
 }
 
 function showAddedMessage(button, productId) {
-  const addedMessage = button.closest(".product-container").querySelector(".added-to-cart");
+  const addedMessage = button
+    .closest(".product-container")
+    .querySelector(".added-to-cart");
 
   if (addedTimeouts[productId]) {
     clearTimeout(addedTimeouts[productId]);
@@ -92,16 +101,18 @@ function showAddedMessage(button, productId) {
 
 // RENDER PRODUCTS
 let productHTML = "";
-products.forEach(product => {
+products.forEach((product) => {
   productHTML += generateProductHTML(product);
 });
 document.querySelector(".js-products-grid").innerHTML = productHTML;
 
 // ADD EVENT LISTENERS
-document.querySelectorAll(".js-add-to-cart").forEach(button => {
+document.querySelectorAll(".js-add-to-cart").forEach((button) => {
   button.addEventListener("click", () => {
     const productId = button.dataset.productId;
-    const quantitySelector = document.querySelector(`.js-product-quantity-selector-${productId}`);
+    const quantitySelector = document.querySelector(
+      `.js-product-quantity-selector-${productId}`
+    );
     const quantity = parseInt(quantitySelector?.value || 1);
 
     handleAddToCart(productId, quantity);
