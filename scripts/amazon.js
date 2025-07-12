@@ -1,4 +1,4 @@
-import { cart } from "../data/cart.js";
+import { cart, AddToCart } from "../data/cart.js";
 import { products } from "../data/products.js";
 
 const addedTimeouts = {};
@@ -70,17 +70,17 @@ function updateCartQuantityUI() {
   document.querySelector(".amazon-header-right-section").innerHTML = cartHtml;
 }
 
-function AddToCart(productId, quantity) {
-  let matchingItem = cart.find((item) => item.productId === productId);
+// function AddToCart(productId, quantity) {
+//   let matchingItem = cart.find((item) => item.productId === productId);
 
-  if (matchingItem) {
-    matchingItem.quantity += quantity;
-  } else {
-    cart.push({ productId, quantity });
-  }
+//   if (matchingItem) {
+//     matchingItem.quantity += quantity;
+//   } else {
+//     cart.push({ productId, quantity });
+//   }
 
-  updateCartQuantityUI();
-}
+//   updateCartQuantityUI();
+// }
 
 function showAddedMessage(button, productId) {
   const addedMessage = button
@@ -115,7 +115,7 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
     );
     const quantity = parseInt(quantitySelector?.value || 1);
 
-    AddToCart(productId, quantity);
+    AddToCart(productId, quantity, updateCartQuantityUI);
     showAddedMessage(button, productId);
   });
 });
