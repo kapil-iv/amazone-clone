@@ -4,7 +4,7 @@ import { formatCurrency } from "./utils/money.js";
 
 let cartSummaryHTML = "";
 
-const cartHTML = cart.forEach((cartItem) => {
+cart.forEach((cartItem) => {
   const product = products.find((product) => product.id === cartItem.productId);
 
   cartSummaryHTML +=`
