@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/amazon.html" },
+    { "source": "/checkout", "destination": "/checkout.html" },
+    { "source": "/orders", "destination": "/orders.html" },
+    { "source": "/tracking", "destination": "/tracking.html" }
+  ]
+}
