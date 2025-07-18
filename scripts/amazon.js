@@ -1,4 +1,4 @@
-import { cart, AddToCart } from "../data/cart.js";
+import { cart, AddToCart, Totalproducts } from "../data/cart.js";
 import { products } from "../data/products.js";
 
 const addedTimeouts = {};
@@ -119,3 +119,5 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
     showAddedMessage(button, productId);
   });
 });
+
+document.querySelector(".js-cart-quantity").textContent = Totalproducts();
